@@ -14,6 +14,10 @@ module.exports = {
       },
       fontFamily: {
         sans: ["Rozha One", "sans"],
+        caveat:['Caveat']
+      },
+      colors: {
+        blue: "#00246B",
       },
     },
   },
