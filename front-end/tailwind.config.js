@@ -14,10 +14,12 @@ module.exports = {
       },
       fontFamily: {
         sans: ["Rozha One", "sans"],
-        caveat:['Caveat']
+        paci: ["Pacifico", "cursive"],
       },
       colors: {
         blue: "#00246B",
+        yello: "#E1AF23",
+        gr: "#D9D9D9",
       },
     },
   },
