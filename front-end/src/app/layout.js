@@ -1,8 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Pacifico } from "next/font/google";
+import { Satisfy } from "next/font/google";
 
-const pacifico = Pacifico({
+const pacifico = Satisfy({
   weight: "400",
   subsets: ["latin"],
 });

@@ -14,7 +14,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["Rozha One", "sans"],
-        paci: ["Pacifico", "cursive"],
+        sati: ["Satisfy", "cursive"],
       },
       colors: {
         blue: "#00246B",
