@@ -1,38 +1,28 @@
 "use client";
 import { CiCircleCheck } from "react-icons/ci";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GoTrash } from "react-icons/go";
 import { GoSearch } from "react-icons/go";
 import { MdOutlineAddCircle } from "react-icons/md";
+import axios from "axios";
 
-export default function Body({ content ,  setContent }) {
+export default function Body({ content, setContent ,task,setTask}) {
   const addTask = () => {
     setContent(false);
   };
 
-  const [task, setTask] = useState([
-    {
-      id: "1",
-      task: "READING",
-      due: "12-10-2024",
-      important: "1",
-    },
-    { id: "2", task: "PLAYING", due: "20-11-2024", important: "0" },
-    {
-      id: "1",
-      task: "READING",
-      due: "12-10-2024",
-      important: "1",
-    },
-    { id: "2", task: "PLAYING", due: "20-11-2024", important: "0" },
-    {
-      id: "1",
-      task: "READING",
-      due: "12-10-2024",
-      important: "1",
-    },
-    { id: "2", task: "PLAYING", due: "20-11-2024", important: "0" },
-  ]);
+  const fetch = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/fetch");
+      setTask(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetch();
+  }, [content]);
 
   return (
     <>
@@ -55,7 +45,7 @@ export default function Body({ content ,  setContent }) {
                 className="w-[600px] h-[40px] bg-gr bg-opacity-20 font-sans text-white text-[15px] rounded-[20px] flex flex-row items-center justify-between p-[20px]"
               >
                 <CiCircleCheck className="text-[27px] hover:text-yello " />
-                <p>{t.task}</p>
+                <p>{t.TASK}</p>
                 <GoTrash className="text-[24px]" />
               </div>
             ))}

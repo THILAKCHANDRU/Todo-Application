@@ -1,7 +1,50 @@
-export default function Form({ content, setContent }) {
-  const confirm = () => {
-    setContent(true);
+import axios from "axios";
+import { useState } from "react";
+
+export default function Form({ content, setContent, task, setTask }) {
+  const [taskname,setTaskname]=useState()
+  const [description, setDescription] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [importance, setImportance] = useState();
+
+  const handleTask = (e) => {
+    setTaskname(e.target.value);
   };
+
+  const handleDescription = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const handleDate = (e) => {
+    setDate(e.target.value);
+  };
+
+  const handleTime = (e) => {
+    setTime(e.target.value);
+  };
+
+  const handleImportance = (e) => {
+    setImportance(e.target.value);
+  };
+
+  const confirm = async () => {
+    const body = {
+      "ID": task.length + 1,
+      "TASK": taskname,
+      "DESCRIPTION": description,
+      "DUE_DATE": `${date} ${time}`,
+      "IMPORTANCE": importance ? 1 : 0,
+    };
+    try {
+      const res = await axios.post("http://localhost:3001/update", body);
+      console.log(res);
+      setContent(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <div className="flex flex-1 w-full bg-white  justify-center items-center">
@@ -19,6 +62,8 @@ export default function Form({ content, setContent }) {
               <p className="text-white font-sans mr-[10px]">TASK :</p>
               <input
                 type="input"
+                onChange={handleTask}
+                value={taskname}
                 className="outline-none h-[30px] w-[400px] px-[10px] py-[5px] bg-gr bg-opacity-20 text-[15px] font-sans text-white rounded-[15px]"
               />
             </div>
@@ -28,6 +73,8 @@ export default function Form({ content, setContent }) {
               <textarea
                 class="w-[400px] h-[100px] px-[10px] py-[10px] rounded-[10px] outline-none font-sans bg-gr bg-opacity-20 text-white resize-none"
                 rows="5"
+                onChange={handleDescription}
+                value={description}
               ></textarea>
             </div>
 
@@ -36,15 +83,24 @@ export default function Form({ content, setContent }) {
                 <p className="text-white font-sans mr-[10px]">DUE :</p>
                 <input
                   type="date"
+                  onChange={handleDate}
+                  value={date}
                   className="bg-gr bg-opacity-20 font-sans text-white px-[10px] rounded-[10px]"
                 />
                 <input
                   type="time"
+                  onChange={handleTime}
+                  value={time}
                   className="bg-gr bg-opacity-20 font-sans text-white px-[10px] rounded-[10px]"
                 />
               </div>
               <div className="flex flex-row gap-[5px] ml-[10px]">
-                <input type="radio" className="text-white focus:outline-none" />
+                <input
+                  type="radio"
+                  className="text-white focus:outline-none"
+                  onChange={handleImportance}
+                  value={importance}
+                />
                 <p className="text-white font-sans mr-[10px]">IMPORTANT</p>
               </div>
             </div>
