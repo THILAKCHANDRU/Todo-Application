@@ -85,13 +85,13 @@ export default function Form({ content, setContent, task, setTask }) {
                   type="date"
                   onChange={handleDate}
                   value={date}
-                  className="bg-gr bg-opacity-20 font-sans text-white px-[10px] rounded-[10px]"
+                  className="bg-gr bg-opacity-20 font-sans text-white px-[10px] rounded-[10px] outline-none"
                 />
                 <input
                   type="time"
                   onChange={handleTime}
                   value={time}
-                  className="bg-gr bg-opacity-20 font-sans text-white px-[10px] rounded-[10px]"
+                  className="bg-gr bg-opacity-20 font-sans text-white px-[10px] rounded-[10px] outline-none"
                 />
               </div>
               <div className="flex flex-row gap-[5px] ml-[10px]">
