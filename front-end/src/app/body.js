@@ -6,7 +6,9 @@ import { GoSearch } from "react-icons/go";
 import { MdOutlineAddCircle } from "react-icons/md";
 import axios from "axios";
 
-export default function Body({ content, setContent ,task,setTask}) {
+export default function Body({ content, setContent, task, setTask }) {
+  const [clickdelete, setClickDelete] = useState(false);
+
   const addTask = () => {
     setContent(false);
   };
@@ -20,9 +22,20 @@ export default function Body({ content, setContent ,task,setTask}) {
     }
   };
 
+  const deleteTask = async (id) => {
+    console.log(id);
+    setClickDelete(false);
+    try {
+      const response = await axios.delete(`http://localhost:3001/delete/${id}`);
+    } catch (err) {
+      console.log(err);
+    }
+    setClickDelete(!clickdelete);
+  };
+
   useEffect(() => {
     fetch();
-  }, [content]);
+  }, [content, clickdelete]);
 
   return (
     <>
@@ -41,12 +54,16 @@ export default function Body({ content, setContent ,task,setTask}) {
           <div className="flex flex-1 flex-col gap-[20px] items-center my-[30px]  overflow-y-auto no-scrollbar">
             {task.map((t) => (
               <div
-                key={t.id}
+                key={t.ID}
                 className="w-[600px] h-[40px] bg-gr bg-opacity-20 font-sans text-white text-[15px] rounded-[20px] flex flex-row items-center justify-between p-[20px]"
               >
                 <CiCircleCheck className="text-[27px] hover:text-yello " />
                 <p>{t.TASK}</p>
-                <GoTrash className="text-[24px]" />
+                <p>{t.DUE_DATE}</p>
+                <GoTrash
+                  className="text-[24px]"
+                  onClick={() => deleteTask(t.ID)}
+                />
               </div>
             ))}
           </div>
