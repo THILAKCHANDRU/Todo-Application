@@ -8,6 +8,16 @@ import axios from "axios";
 
 export default function Body({ content, setContent, task, setTask }) {
   const [clickdelete, setClickDelete] = useState(false);
+  const [isStrick, setStrick] = useState({});
+  const [isSort, setSort] = useState(false);
+
+  const handleStrick = (id) => {
+    setStrick((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const handleSort = () => {
+    setSort(!isSort);
+  };
 
   const addTask = () => {
     setContent(false);
@@ -16,6 +26,15 @@ export default function Body({ content, setContent, task, setTask }) {
   const fetch = async () => {
     try {
       const response = await axios.get("http://localhost:3001/fetch");
+      setTask(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const sort = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/sort");
       setTask(response.data);
     } catch (err) {
       console.log(err);
@@ -34,15 +53,20 @@ export default function Body({ content, setContent, task, setTask }) {
   };
 
   useEffect(() => {
-    fetch();
-  }, [content, clickdelete]);
+    {
+      isSort ? sort() : fetch();
+    }
+  }, [content, clickdelete, isSort]);
 
   return (
     <>
       <div className="flex flex-row h-full w-full justify-center items-center">
         <div className=" flex flex-col h-[420px] w-[800px] ml-[120px] my-[20px] px-[40px] py-[40px] bg-blue rounded-[20px]">
           <div className="flex flex-row gap-[30px] justify-center items-center">
-            <button className="bg-yello rounded-[5px] px-[15px] py-[5px] h-[40px] font-sans">
+            <button
+              className="bg-yello rounded-[5px] px-[15px] py-[5px] h-[40px] font-sans"
+              onClick={handleSort}
+            >
               SORT
             </button>
             <input
@@ -57,8 +81,15 @@ export default function Body({ content, setContent, task, setTask }) {
                 key={t.ID}
                 className="w-[600px] h-[40px] bg-gr bg-opacity-20 font-sans text-white text-[15px] rounded-[20px] flex flex-row items-center justify-between p-[20px]"
               >
-                <CiCircleCheck className="text-[27px] hover:text-yello " />
-                <p>{t.TASK}</p>
+                <CiCircleCheck
+                  className={`text-[27px] ${
+                    isStrick[t.ID] ? "text-yello" : "white"
+                  }`}
+                  onClick={() => handleStrick(t.ID)}
+                />
+                <p className={`${isStrick[t.ID] ? "line-through" : ""}`}>
+                  {t.TASK}
+                </p>
                 <p>{t.DUE_DATE}</p>
                 <GoTrash
                   className="text-[24px]"

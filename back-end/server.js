@@ -68,3 +68,14 @@ app.get("/fetch", async (req, res) => {
     res.status(500).send({ ERR: "Internal server Error" });
   }
 });
+
+
+app.get("/sort", async (req,res)=>{
+  try{
+    const [response] = await db.query ('select * from tasks order by DUE_DATE');
+    res.status(200).json(response);
+  }catch(err){
+    console.log(err);
+    res.status(500).send({ERR: "Internal Server Error"})
+  }
+})
