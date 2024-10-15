@@ -4,12 +4,19 @@ import { useEffect, useState } from "react";
 import { GoTrash } from "react-icons/go";
 import { GoSearch } from "react-icons/go";
 import { MdOutlineAddCircle } from "react-icons/md";
+import { IoIosArrowDropdown } from "react-icons/io";
 import axios from "axios";
+import DropDown from "./drop_down_sorting";
 
 export default function Body({ content, setContent, task, setTask }) {
   const [clickdelete, setClickDelete] = useState(false);
   const [isStrick, setStrick] = useState({});
   const [isSort, setSort] = useState(false);
+  const [isDrop, setDrop] = useState(false);
+
+  const handleDropDown = () => {
+    setDrop(!isDrop);
+  };
 
   const handleStrick = (id) => {
     setStrick((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -56,19 +63,22 @@ export default function Body({ content, setContent, task, setTask }) {
     {
       isSort ? sort() : fetch();
     }
-  }, [content, clickdelete, isSort]);
+  }, [content, clickdelete]);
 
   return (
     <>
       <div className="flex flex-row h-full w-full justify-center items-center">
         <div className=" flex flex-col h-[420px] w-[800px] ml-[120px] my-[20px] px-[40px] py-[40px] bg-blue rounded-[20px]">
           <div className="flex flex-row gap-[30px] justify-center items-center">
-            <button
-              className="bg-yello rounded-[5px] px-[15px] py-[5px] h-[40px] font-sans"
-              onClick={handleSort}
-            >
-              SORT
-            </button>
+            <div className="relative z-10">
+              <button
+                className="bg-yello rounded-[5px] px-[15px] py-[5px] h-[40px] font-sans flex flex-row justify-center items-center gap-[5px] mb-[5px] "
+                onClick={handleDropDown}
+              >
+                SORT BY <IoIosArrowDropdown />
+              </button>
+              {isDrop ? <DropDown /> : <></>}
+            </div>
             <input
               type="input"
               className="text-white font-sans outline-none bg-gr bg-opacity-20 px-[10px] py-[5px] h-[40px] w-[400px] rounded-[5px] items-center justify-center"
