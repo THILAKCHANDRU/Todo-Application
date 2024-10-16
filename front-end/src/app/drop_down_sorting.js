@@ -1,6 +1,8 @@
-export default function DropDown() {
+export default function DropDown({handlesort}) {
   return (
-    <div className="absolute flex flex-col h-auto w-[120px] rounded-[7px] overflow-hidden font-sans text-[13px]">
+    <div
+      className={`absolute flex flex-col h-auto w-[120px] rounded-[7px] overflow-hidden font-sans text-[13px] "}`}
+    >
       <button
         className="flex justify-center items-center bg-white"
         onClick={() => handlesort("importance")}

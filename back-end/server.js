@@ -70,9 +70,10 @@ app.get("/fetch", async (req, res) => {
 });
 
 
-app.get("/sort", async (req,res)=>{
+app.get("/sort/:type", async (req,res)=>{
+  const {type} = req.params
   try{
-    const [response] = await db.query ('select * from tasks order by DUE_DATE');
+    const [response] = await db.query (`select * from tasks order by ${type}`);
     res.status(200).json(response);
   }catch(err){
     console.log(err);

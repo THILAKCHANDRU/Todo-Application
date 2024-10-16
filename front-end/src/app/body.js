@@ -1,6 +1,6 @@
 "use client";
 import { CiCircleCheck } from "react-icons/ci";
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useRef} from "react";
 import { GoTrash } from "react-icons/go";
 import { GoSearch } from "react-icons/go";
 import { MdOutlineAddCircle } from "react-icons/md";
@@ -14,16 +14,26 @@ export default function Body({ content, setContent, task, setTask }) {
   const [isSort, setSort] = useState(false);
   const [isDrop, setDrop] = useState(false);
 
+  const searchInputRef = useRef(null);
+
+  const handleFocus = () => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  };
+
   const handleDropDown = () => {
     setDrop(!isDrop);
+    console.log(isDrop);
   };
 
   const handleStrick = (id) => {
     setStrick((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const handleSort = () => {
+  const handleSort = (type) => {
     setSort(!isSort);
+    sort(type);
   };
 
   const addTask = () => {
@@ -39,9 +49,9 @@ export default function Body({ content, setContent, task, setTask }) {
     }
   };
 
-  const sort = async () => {
+  const sort = async (type) => {
     try {
-      const response = await axios.get("http://localhost:3001/sort");
+      const response = await axios.get(`http://localhost:3001/sort/${type}`);
       setTask(response.data);
     } catch (err) {
       console.log(err);
@@ -63,7 +73,7 @@ export default function Body({ content, setContent, task, setTask }) {
     {
       isSort ? sort() : fetch();
     }
-  }, [content, clickdelete]);
+  }, [content, clickdelete,isSort]);
 
   return (
     <>
@@ -72,18 +82,22 @@ export default function Body({ content, setContent, task, setTask }) {
           <div className="flex flex-row gap-[30px] justify-center items-center">
             <div className="relative z-10">
               <button
-                className="bg-yello rounded-[5px] px-[15px] py-[5px] h-[40px] font-sans flex flex-row justify-center items-center gap-[5px] mb-[5px] "
+                className="bg-yello rounded-[5px] px-[15px] py-[5px] h-[40px] font-sans flex flex-row justify-center items-center gap-[5px] mb-[5px] hover: cursor-pointer "
                 onClick={handleDropDown}
               >
                 SORT BY <IoIosArrowDropdown />
               </button>
-              {isDrop ? <DropDown /> : <></>}
+              {isDrop? <DropDown handlesort={handleSort}/> : ""}
             </div>
             <input
               type="input"
+              ref={searchInputRef}
               className="text-white font-sans outline-none bg-gr bg-opacity-20 px-[10px] py-[5px] h-[40px] w-[400px] rounded-[5px] items-center justify-center"
             />
-            <GoSearch className="text-[25px] text-white" />
+            <GoSearch
+              className="text-[25px] text-white hover: cursor-pointer"
+              onClick={handleFocus}
+            />
           </div>
           <div className="flex flex-1 flex-col gap-[20px] items-center my-[30px]  overflow-y-auto no-scrollbar">
             {task.map((t) => (
@@ -94,7 +108,7 @@ export default function Body({ content, setContent, task, setTask }) {
                 <CiCircleCheck
                   className={`text-[27px] ${
                     isStrick[t.ID] ? "text-yello" : "white"
-                  }`}
+                  } hover: cursor-pointer`}
                   onClick={() => handleStrick(t.ID)}
                 />
                 <p className={`${isStrick[t.ID] ? "line-through" : ""}`}>
@@ -102,7 +116,7 @@ export default function Body({ content, setContent, task, setTask }) {
                 </p>
                 <p>{t.DUE_DATE}</p>
                 <GoTrash
-                  className="text-[24px]"
+                  className="text-[24px] hover: cursor-pointer"
                   onClick={() => deleteTask(t.ID)}
                 />
               </div>
