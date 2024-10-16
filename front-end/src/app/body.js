@@ -1,12 +1,14 @@
 "use client";
 import { CiCircleCheck } from "react-icons/ci";
-import { useEffect, useState ,useRef} from "react";
+import { useEffect, useState, useRef } from "react";
 import { GoTrash } from "react-icons/go";
 import { GoSearch } from "react-icons/go";
 import { MdOutlineAddCircle } from "react-icons/md";
 import { IoIosArrowDropdown } from "react-icons/io";
 import axios from "axios";
 import DropDown from "./drop_down_sorting";
+import { IoIosArrowDropup } from "react-icons/io";
+import { BsBookmarkStar } from "react-icons/bs";
 
 export default function Body({ content, setContent, task, setTask }) {
   const [clickdelete, setClickDelete] = useState(false);
@@ -73,7 +75,7 @@ export default function Body({ content, setContent, task, setTask }) {
     {
       isSort ? sort() : fetch();
     }
-  }, [content, clickdelete,isSort]);
+  }, [content, clickdelete, isSort]);
 
   return (
     <>
@@ -85,9 +87,9 @@ export default function Body({ content, setContent, task, setTask }) {
                 className="bg-yello rounded-[5px] px-[15px] py-[5px] h-[40px] font-sans flex flex-row justify-center items-center gap-[5px] mb-[5px] hover: cursor-pointer "
                 onClick={handleDropDown}
               >
-                SORT BY <IoIosArrowDropdown />
+                SORT BY {isDrop ? <IoIosArrowDropup /> : <IoIosArrowDropdown />}
               </button>
-              {isDrop? <DropDown handlesort={handleSort}/> : ""}
+              {isDrop ? <DropDown handlesort={handleSort} /> : ""}
             </div>
             <input
               type="input"
@@ -115,10 +117,13 @@ export default function Body({ content, setContent, task, setTask }) {
                   {t.TASK}
                 </p>
                 <p>{t.DUE_DATE}</p>
-                <GoTrash
-                  className="text-[24px] hover: cursor-pointer"
-                  onClick={() => deleteTask(t.ID)}
-                />
+                <div className="flex flex-row justify-center items-center gap-[2px] w-[60px]">
+                  <div className="w-[25px]">{t.IMPORTANCE ? <BsBookmarkStar /> : ""}</div>
+                  <GoTrash
+                    className="text-[24px] hover: cursor-pointer"
+                    onClick={() => deleteTask(t.ID)}
+                  />
+                </div>
               </div>
             ))}
           </div>
