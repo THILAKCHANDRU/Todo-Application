@@ -29,8 +29,11 @@ export default function Form({ content, setContent, task, setTask }) {
   };
 
   const confirm = async () => {
+    const key = Object.keys(task)
+    const len = key.length
+    const newId = task[len-1].ID + 1
     const body = {
-      "ID": task.length + 1,
+      "ID": newId,
       "TASK": taskname,
       "DESCRIPTION": description,
       "DUE_DATE": `${date} ${time}`,

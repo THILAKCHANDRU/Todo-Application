@@ -35,6 +35,7 @@ export default function Body({ content, setContent, task, setTask }) {
 
   const handleSort = (type) => {
     setSort(!isSort);
+    setDrop(!isDrop);
     sort(type);
   };
 
@@ -118,7 +119,9 @@ export default function Body({ content, setContent, task, setTask }) {
                 </p>
                 <p>{t.DUE_DATE}</p>
                 <div className="flex flex-row justify-center items-center gap-[2px] w-[60px]">
-                  <div className="w-[25px]">{t.IMPORTANCE ? <BsBookmarkStar /> : ""}</div>
+                  <div className="w-[25px]">
+                    {t.IMPORTANCE ? <BsBookmarkStar /> : ""}
+                  </div>
                   <GoTrash
                     className="text-[24px] hover: cursor-pointer"
                     onClick={() => deleteTask(t.ID)}
