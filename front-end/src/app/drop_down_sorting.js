@@ -12,14 +12,14 @@ export default function DropDown({handlesort}) {
       <hr className="border-t-0.5 border-blue-500"></hr>
       <button
         className="flex justify-center items-center bg-white"
-        onClick={() => handlesort("date")}
+        onClick={() => handlesort("DATE")}
       >
         DATE
       </button>
       <hr></hr>
       <button
         className="flex justify-center items-center bg-white"
-        onClick={() => handlesort("time")}
+        onClick={() => handlesort("TIME")}
       >
         TIME
       </button>

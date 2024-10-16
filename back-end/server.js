@@ -73,7 +73,7 @@ app.get("/fetch", async (req, res) => {
 app.get("/sort/:type", async (req,res)=>{
   const {type} = req.params
   try{
-    const [response] = await db.query (`select * from tasks order by ${type} desc`);
+    const [response] = await db.query (`select * from tasks order by ${type==="importance" ? type : `${type}(DUE_DATE)`} desc`);
     res.status(200).json(response);
   }catch(err){
     console.log(err);
